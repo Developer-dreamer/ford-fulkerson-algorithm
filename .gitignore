@@ -23,6 +23,7 @@
 
 *.suo
 *.user
+*.xml
 .vs/
 [Bb]in/
 [Oo]bj/
