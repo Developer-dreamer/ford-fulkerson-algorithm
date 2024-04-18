@@ -2,18 +2,10 @@ namespace FordFulkersonAlgorithm;
 
 public class FordFulkerson
 {
-    private static int V;
-    public static int[,] _graph;
-
-    public FordFulkerson(int[,] graph)
-    {
-        V = CountVertices(graph);
-        _graph = graph;
-
-    }
 
     static bool BFS(int[,] graph, int source, int target, Dictionary<int, int> origins)
     {
+        int V = graph.GetLength(0);
         List<int> visited = new List<int>();
         Queue<int> queue = new Queue<int>();
         visited.Add(source);
@@ -42,9 +34,9 @@ public class FordFulkerson
     }
 
 
-    public static int FordFulkersonAlgorithm(int source, int target)
+    public static int FordFulkersonAlgorithm(int[,] graph, int source, int target)
     {
-        int[,] graphCopy = (int[,])_graph.Clone();
+        int[,] graphCopy = (int[,])graph.Clone();
         Dictionary<int, int> origins = new Dictionary<int, int>();
         var maxFlow = 0;
         while (BFS(graphCopy, source, target, origins))
@@ -53,7 +45,7 @@ public class FordFulkerson
             for (int v = target; v != source; v = origins[v])
             {
                 int u = origins[v];
-                pathFlow = Math.Min(pathFlow, graphCopy[u, v]);
+                pathFlow = Math.Min(pathFlow, 1);
             }
 
             for (int v = target;  v != source; v = origins[v])
@@ -68,16 +60,90 @@ public class FordFulkerson
 
         return maxFlow;
     }
-
-    public static int CountVertices(int[,] graph)
-    {
-        int vertices = 0;
-        for (int i = 0; i < graph.GetLength(0); i++)
+    
+    
+    static bool BFS(List<List<(int, int)>> adjacencyList, int source, int target, Dictionary<int, int> origins)
         {
-            vertices++;
+            List<int> visited = new List<int>();
+            Queue<int> queue = new Queue<int>();
+            visited.Add(source);
+            queue.Enqueue(source);
+            origins[source] = -1;
+            while (queue.Count > 0)
+            {
+                int u = queue.Dequeue();
+                foreach (var (v, weight) in adjacencyList[u])
+                {
+                    if (!visited.Contains(v) && weight > 0)
+                    {
+                        if (v == target)
+                        {
+                            origins[v] = u;
+                            return true;
+                        }
+                        visited.Add(v);
+                        queue.Enqueue(v);
+                        origins[v] = u;
+                    }
+                }
+            }
+
+            return false;
         }
 
-        return vertices;
+    public static int FordFulkersonAlgorithm(List<List<(int, int)>> adjacencyList, int source, int target)
+    {
+        var adjacencyListCopy = new List<List<(int, int)>>(adjacencyList);
+
+        Dictionary<int, int> origins = new Dictionary<int, int>();
+        var maxFlow = 0;
+        while (BFS(adjacencyListCopy, source, target, origins))
+        {
+            var pathFlow = int.MaxValue;
+            for (int v = target; v != source; v = origins[v])
+            {
+                int u = origins[v];
+                foreach (var (vertex, weight) in adjacencyListCopy[u])
+                {
+                    if (vertex == v)
+                    {
+                        pathFlow = Math.Min(pathFlow, weight);
+                        break;
+                    }
+                }
+            }
+
+            for (int v = target; v != source; v = origins[v])
+            {
+                int u = origins[v];
+                for (int i = 0; i < adjacencyListCopy[u].Count; i++)
+                {
+                    var (vertex, weight) = adjacencyListCopy[u][i];
+                    if (vertex == v)
+                    {
+                        adjacencyListCopy[u][i] = (vertex, weight - pathFlow);
+                        break;
+                    }
+                }
+
+                for (int i = 0; i < adjacencyListCopy[v].Count; i++)
+                {
+                    var (vertex, weight) = adjacencyListCopy[v][i];
+
+                    if (vertex == u)
+                    {
+                        adjacencyListCopy[v][i] = (vertex, weight + pathFlow);
+                        break;
+                    }
+                }
+            }
+            maxFlow += pathFlow;
+        }
+
+        return maxFlow;
     }
-}
+
+
+       
+    }
 
