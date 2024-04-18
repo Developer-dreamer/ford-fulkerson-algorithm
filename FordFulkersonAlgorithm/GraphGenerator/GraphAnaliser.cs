@@ -1,46 +1,119 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections;
+using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace FordFulkersonAlgorithm.GraphGenerator;
 public class GraphAnaliser
 {
-    private List<int[,]> _graphs;
     private int _verticesAmount;
     private double _density;
     private bool _graphsType;
-    public GraphAnaliser(int verticesamount, double density, bool type)
+
+    private int _flowSum;
+
+    private List<int[,]> _graphsInMatrix;
+    private List<List<List<(int, int)>>> _graphsInList;
+    private ArrayList _statistics = new ArrayList();
+    private string _pathToOutput;
+
+    public GraphAnaliser(int verticesAmount, double density, bool type, string pathToOutput)
     {
-        _verticesAmount = verticesamount;
+        _verticesAmount = verticesAmount;
         _density = density;
         _graphsType = type;
         GenerateGraphs();
+        _pathToOutput = pathToOutput;
     }
 
     private void GenerateGraphs()
     {
-        _graphs = new List<int[,]>();
-
-        for (int i = 0; i < 1000; i++)
+        if (_graphsType)
         {
-            var graph = new Graph(_verticesAmount, _density, _graphsType);
-            _graphs.Add(graph._graphMatrix);
+            _graphsInMatrix = new();
+            for (int i = 0; i < 20; i++)
+            {
+                var graph = new Graph(_verticesAmount, _density, _graphsType);
+                _graphsInMatrix.Add(graph._graphMatrix);
+            }
+        }
+        else { 
+
+            _graphsInList = new ();
+            for (int i = 0; i < 20; i++)
+            {
+                var graph = new Graph(_verticesAmount, _density, _graphsType);
+                _graphsInList.Add(graph._graphList);
+            }
         }
     }
     public void Analyse()
     {
-        var timer = new Stopwatch();
-        timer.Start();
-        for (int i = 0; i < _graphs.Count; i++)
+
+        if (_graphsType)
         {
-            FordFulkerson m = new FordFulkerson(_graphs[i]);
-            //Console.WriteLine("The maximum possible flow is " + FordFulkerson.FordFulkersonAlgorithm(0, 5));
+            var timer = new Stopwatch();
+            for (int i = 0; i < _graphsInMatrix.Count; i++)
+            {
+                timer.Start();
+                int flow = FordFulkerson.FordFulkersonAlgorithm(_graphsInMatrix[i], 0, 5);
+                timer.Stop();
+
+                _statistics.AddRange(new object[] {
+                    _verticesAmount,
+                    _density,
+                    _graphsType ? "Matrix" : "List",
+                    flow,
+                    timer.Elapsed
+                });
+
+                Statistics.GetStatistics(_statistics, _pathToOutput);
+
+                _statistics.Clear();
+                _flowSum += flow;
+            }
+
+            var avgFlow = _flowSum / _graphsInMatrix.Count;
+
+            using (var writer = new StreamWriter(_pathToOutput, true))
+            {
+                string result = $"Average flow: {avgFlow}";
+                writer.WriteLine(result);
+            }
         }
-        timer.Stop();
-        Console.WriteLine("Time elapsed: " + timer.Elapsed);
+        else
+        {
+            var timer = new Stopwatch();
+            for (int i = 0; i < _graphsInList.Count; i++)
+            {
+                timer.Start();
+                int flow = FordFulkerson.FordFulkersonAlgorithm(_graphsInList[i], 0, 5);
+                timer.Stop();
+
+                _statistics.AddRange(new object[] {
+                    _verticesAmount,
+                    _density,
+                    _graphsType ? "Matrix" : "List",
+                    flow,
+                    timer.Elapsed
+                });
+
+                Statistics.GetStatistics(_statistics, _pathToOutput);
+                _statistics.Clear();
+                _flowSum += flow;
+            }
+
+            var avgFlow = _flowSum / _graphsInList.Count;
+
+            // Statistics.GetStatistics(new string[] { "Average flow: " + avgFlow }, _pathToOutput);
+
+            using (var writer = new StreamWriter(_pathToOutput, true))
+            {
+                string result = $"Average flow: {avgFlow}";
+                writer.WriteLine(result);
+            }
+        }
+        
     }
 }
 

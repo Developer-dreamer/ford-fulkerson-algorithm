@@ -7,4 +7,15 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="GraphGenerator\statistics.csv" />
+    <None Remove="statistics.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="GraphGenerator\statistics.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
