@@ -28,6 +28,7 @@ public class Program
 
         adjacencyList.Add(new List<(int, int)>());
 
+// Now you can use this adjacency list with the Ford-Fulkerson algorithm
 
 
         Console.WriteLine("The maximum possible flow is " + FordFulkerson.FordFulkersonAlgorithm(graph, 0, 5));

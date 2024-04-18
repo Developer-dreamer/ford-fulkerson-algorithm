@@ -36,23 +36,22 @@ public class FordFulkerson
 
     public static int FordFulkersonAlgorithm(int[,] graph, int source, int target)
     {
-        int[,] graphCopy = (int[,])graph.Clone();
         Dictionary<int, int> origins = new Dictionary<int, int>();
         var maxFlow = 0;
-        while (BFS(graphCopy, source, target, origins))
+        while (BFS(graph, source, target, origins))
         {
             var pathFlow = int.MaxValue;
             for (int v = target; v != source; v = origins[v])
             {
                 int u = origins[v];
-                pathFlow = Math.Min(pathFlow, 1);
+                pathFlow = Math.Min(pathFlow, graph[u, v]);
             }
 
             for (int v = target;  v != source; v = origins[v])
             {
                 int u = origins[v];
-                graphCopy[u, v] -= pathFlow;
-                graphCopy[v, u] += pathFlow;
+                graph[u, v] -= pathFlow;
+                graph[v, u] += pathFlow;
             }
 
             maxFlow += pathFlow;
@@ -93,7 +92,7 @@ public class FordFulkerson
 
     public static int FordFulkersonAlgorithm(List<List<(int, int)>> adjacencyList, int source, int target)
     {
-        var adjacencyListCopy = new List<List<(int, int)>>(adjacencyList);
+        var adjacencyListCopy = adjacencyList;
 
         Dictionary<int, int> origins = new Dictionary<int, int>();
         var maxFlow = 0;
