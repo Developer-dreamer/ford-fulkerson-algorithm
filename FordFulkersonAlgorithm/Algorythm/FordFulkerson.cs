@@ -2,6 +2,7 @@ namespace FordFulkersonAlgorithm;
 
 public class FordFulkerson
 {
+    // BFS algorithm for finding the shortest path in a graph generated as a matrix
     static bool BFS(int[,] graph, int source, int target, Dictionary<int, int> origins)
     {
         int V = graph.GetLength(0);
@@ -33,7 +34,7 @@ public class FordFulkerson
         return false;
     }
     
-    
+    // Ford-Fulkerson algorithm for finding the maximum flow in a graph generated as a matrix
     public static int FordFulkersonAlgorithm(int[,] graph, int source, int target)
     {
         Dictionary<int, int> origins = new Dictionary<int, int>();
@@ -60,7 +61,7 @@ public class FordFulkerson
         return maxFlow;
     }
 
-
+    // BFS algorithm for finding the shortest path in a graph generated as a list
     static bool BFS(List<List<(int, int)>> adjacencyList, int source, int target, Dictionary<int, int> origins)
     {
         List<int> visited = new List<int>();
@@ -91,6 +92,7 @@ public class FordFulkerson
         return false;
     }
 
+    // Ford-Fulkerson algorithm for finding the maximum flow in a graph generated as a list
     public static int FordFulkersonAlgorithm(List<List<(int, int)>> adjacencyList, int source, int target)
     {
         var adjacencyListCopy = adjacencyList;
