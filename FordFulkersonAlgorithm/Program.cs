@@ -5,7 +5,9 @@ public class Program
     public static void Main()
     {
         Console.WriteLine("Hello World");
-        var graph = new Graph(200, 0.02, 'm');
+        bool isMatrix = true;
+        bool isList = false;
+        var graph = new Graph(200, 0.02, isMatrix);
         var graphMatrix = graph._graphMatrix;
 
         

@@ -3,24 +3,20 @@ namespace FordFulkersonAlgorithm.GraphGenerator;
 public class Graph
 {
     public int[,] _graphMatrix;
-    private List<List<int>> _graphList;
+    public List<List<int>> _graphList;
     private int _verticesAmount;
     private double _density;
-    public Graph(int n, double p, char generationType)
+    public Graph(int n, double p, bool generationType)
     {
         _verticesAmount = n;
         _density = p;
-        switch (generationType)
+        if (generationType)
         {
-            case 'm':
-                _graphMatrix = GenerateMatrix(_verticesAmount, _density);
-                break;
-            case 'l':
-                _graphList = GenerateList(_verticesAmount, _density);
-                break;
-            default:
-                _graphMatrix = GenerateMatrix(_verticesAmount, _density);
-                break;
+            _graphMatrix = GenerateMatrix(n, p);
+        }
+        else
+        {
+            _graphList = GenerateList(n, p);
         }
     }
 
