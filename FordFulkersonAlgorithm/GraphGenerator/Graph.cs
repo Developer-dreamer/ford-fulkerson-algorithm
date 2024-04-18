@@ -3,7 +3,7 @@ namespace FordFulkersonAlgorithm.GraphGenerator;
 public class Graph
 {
     public int[,] _graphMatrix;
-    public List<List<int>> _graphList;
+    public List<List<(int, int)>> _graphList;
     private int _verticesAmount;
     private double _density;
     public Graph(int n, double p, bool generationType)
@@ -43,14 +43,14 @@ public class Graph
         return _graphMatrix;
     }
 
-    private List<List<int>> GenerateList(int vertices, double density)
+    private List<List<(int, int)>> GenerateList(int vertices, double density)
     {
-        _graphList = new List<List<int>>();
+        _graphList = new List<List<(int, int)>>();
         var random = new Random();
 
         for (int i = 0; i < vertices; i++)
         {
-            _graphList.Add(new List<int>());
+            _graphList.Add(new List<(int, int)>());
         }
 
         for (int i = 0; i < vertices; i++)
@@ -59,14 +59,10 @@ public class Graph
             {
                 if (i != j && random.NextDouble() < density)
                 {
-                   _graphList[i].Add(j);
-                }
-                else
-                {
-                    _graphList[i].Add(0);
+                   _graphList[i].Add((j, random.Next(1, 50)));
                 }
             }
         }
-        return new List<List<int>>();
+        return new List<List<(int, int)>>();
     }
 }

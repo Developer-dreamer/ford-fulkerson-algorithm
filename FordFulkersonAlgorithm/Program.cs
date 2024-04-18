@@ -4,14 +4,11 @@ public class Program
 {
     public static void Main()
     {
-        Console.WriteLine("Hello World");
         bool isMatrix = true;
         bool isList = false;
-        var graph = new Graph(200, 0.02, isMatrix);
-        var graphMatrix = graph._graphMatrix;
 
-        
-        FordFulkerson m = new FordFulkerson(graphMatrix);
-        Console.WriteLine("The maximum possible flow is " + FordFulkerson.FordFulkersonAlgorithm(0, 5));
+        var analiser = new GraphAnaliser(200, 0.1, isList);
+
+        analiser.Analyse();
     }
 }
