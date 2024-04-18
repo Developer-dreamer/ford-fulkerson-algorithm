@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 namespace FordFulkersonAlgorithm.GraphGenerator;
 public class GraphAnaliser
 {
-    private List<int[,]> _graphs;
+    private List<int[,]> _graphsInMatrix;
+    private List<List<List<(int, int)>>> _graphsInList;
     private int _verticesAmount;
     private double _density;
     private bool _graphsType;
@@ -22,25 +23,45 @@ public class GraphAnaliser
 
     private void GenerateGraphs()
     {
-        _graphs = new List<int[,]>();
-
-        for (int i = 0; i < 1000; i++)
+        if (_graphsType)
         {
-            var graph = new Graph(_verticesAmount, _density, _graphsType);
-            _graphs.Add(graph._graphMatrix);
+
         }
+        else { 
+
+            _graphsInList = new List<List<List<(int, int)>>>();
+            for (int i = 0; i < 1000; i++)
+            {
+                var graph = new Graph(_verticesAmount, _density, _graphsType);
+                _graphsInList.Add(graph._graphList);
+            }
+        }
+
+        
     }
     public void Analyse()
     {
-        var timer = new Stopwatch();
-        timer.Start();
-        for (int i = 0; i < _graphs.Count; i++)
-        {
-            FordFulkerson m = new FordFulkerson(_graphs[i]);
-            //Console.WriteLine("The maximum possible flow is " + FordFulkerson.FordFulkersonAlgorithm(0, 5));
+        if (_graphsType) { 
+            var timer = new Stopwatch();
+            timer.Start();
+            for (int i = 0; i < _graphsInMatrix.Count; i++)
+            {
+                Console.WriteLine($"The maximum possible flow is {FordFulkerson.FordFulkersonAlgorithm(_graphsInMatrix[i], 0, 5)}");
+            }
+            timer.Stop();
+            Console.WriteLine("Time elapsed: " + timer.Elapsed);
         }
-        timer.Stop();
-        Console.WriteLine("Time elapsed: " + timer.Elapsed);
+        else
+        {
+            var timer = new Stopwatch();
+            timer.Start();
+            for (int i = 0; i < _graphsInList.Count; i++)
+            {
+                Console.WriteLine($"The maximum possible flow is {FordFulkerson.FordFulkersonAlgorithm(_graphsInList[i], 0, 5)}");
+            }
+            timer.Stop();
+            Console.WriteLine("Time elapsed: " + timer.Elapsed);
+        }
     }
 }
 

@@ -45,12 +45,12 @@ public class Graph
 
     private List<List<(int, int)>> GenerateList(int vertices, double density)
     {
-        _graphList = new List<List<(int, int)>>();
+        List<List<(int, int)>> graph = new();
         var random = new Random();
 
         for (int i = 0; i < vertices; i++)
         {
-            _graphList.Add(new List<(int, int)>());
+            graph.Add(new List<(int, int)>());
         }
 
         for (int i = 0; i < vertices; i++)
@@ -59,10 +59,10 @@ public class Graph
             {
                 if (i != j && random.NextDouble() < density)
                 {
-                   _graphList[i].Add((j, random.Next(1, 50)));
+                   graph[i].Add((j, random.Next(1, 50)));
                 }
             }
         }
-        return new List<List<(int, int)>>();
+        return graph;
     }
 }
