@@ -1,40 +1,47 @@
+using System.Runtime.CompilerServices;
+
 namespace FordFulkersonAlgorithm.GraphGenerator;
 
 public class Graph
 {
+    // Properties of the graph
     public int[,] _graphMatrix;
     public List<List<(int, int)>> _graphList;
     private int _verticesAmount;
     private double _density;
-    protected int _edgesCount;
-    public Graph(int n, double p, bool generationType)
+    private int _maxWeight;
+
+    // Constructor
+    public Graph(int n, double p, int w, bool generationType)
     {
         _verticesAmount = n;
         _density = p;
+        _maxWeight = w;
    
         if (generationType)
         {
-            _graphMatrix = GenerateMatrix(n, p);
+            _graphMatrix = GenerateMatrix();
         }
         else
         {
-            _graphList = GenerateList(n, p);
+            _graphList = GenerateList();
         }
     }
 
-    private int[,] GenerateMatrix(int vertices, double density)
+    // Method for generating a matrix
+    private int[,] GenerateMatrix()
     {
-       _graphMatrix = new int[vertices, vertices];
+       _graphMatrix = new int[_verticesAmount, _verticesAmount];
 
         var random = new Random();
 
-        for (int i = 0; i < vertices; i++ )
+        for (int i = 0; i < _verticesAmount; i++ )
         {
-            for (int j = 0; j < vertices; j++)
+            for (int j = 0; j < _verticesAmount; j++)
             {
-                if ( random.NextDouble() < density)
+                if ( random.NextDouble() < _density)
                 {
-                    _graphMatrix[i, j] = random.Next(1, 21);
+                    _graphMatrix[i, j] = random.Next(1, _maxWeight + 1);
                 }
                 else
                 {
@@ -45,23 +52,24 @@ public class Graph
         return _graphMatrix;
     }
 
-    private List<List<(int, int)>> GenerateList(int vertices, double density)
+    // Method for generating a list
+    private List<List<(int, int)>> GenerateList()
     {
         List<List<(int, int)>> graph = new();
         var random = new Random();
 
-        for (int i = 0; i < vertices; i++)
+        for (int i = 0; i < _verticesAmount; i++)
         {
             graph.Add(new List<(int, int)>());
         }
 
-        for (int i = 0; i < vertices; i++)
+        for (int i = 0; i < _verticesAmount; i++)
         {
-            for (int j = 0; j < vertices; j++)
+            for (int j = 0; j < _verticesAmount; j++)
             {
-                if (i != j && random.NextDouble() < density)
+                if (i != j && random.NextDouble() < _density)
                 {
-                   graph[i].Add((j, random.Next(1, 21)));
+                   graph[i].Add((j, random.Next(1, _maxWeight + 1)));
                 }
             }
         }
