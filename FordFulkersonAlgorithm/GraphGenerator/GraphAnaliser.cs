@@ -31,7 +31,7 @@ public class GraphAnaliser
         if (_graphsType)
         {
             _graphsInMatrix = new();
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 10; i++)
             {
                 var graph = new Graph(_verticesAmount, _density, _graphsType);
                 _graphsInMatrix.Add(graph._graphMatrix);
@@ -40,7 +40,7 @@ public class GraphAnaliser
         else { 
 
             _graphsInList = new ();
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 10; i++)
             {
                 var graph = new Graph(_verticesAmount, _density, _graphsType);
                 _graphsInList.Add(graph._graphList);

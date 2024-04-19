@@ -19,9 +19,13 @@ public class Program
         bool isList = false;
 
         
-        var analiser = new GraphAnaliser(200, 0.1, isList, fullPath);
+        var analiser = new GraphAnaliser(300, 0.8, isList, fullPath);
+
+        var analiser1 = new GraphAnaliser(300, 0.8, isMatrix, fullPath);
+
 
         analiser.Analyse();
+        analiser1.Analyse();
 
         Console.WriteLine("Done");
     }
