@@ -62,9 +62,10 @@ public class GraphAnaliser
         // If the graph is generated as a matrix
         if (_graphsType)
         {
-            var timer = new Stopwatch();
+            
             for (int i = 0; i < _graphsInMatrix.Count; i++)
             {
+                var timer = new Stopwatch();
                 timer.Start();
                 int flow = FordFulkerson.FordFulkersonAlgorithm(_graphsInMatrix[i], 0, 5);
                 timer.Stop();
@@ -97,9 +98,10 @@ public class GraphAnaliser
         // If the graph is generated as a list
         else
         {
-            var timer = new Stopwatch();
+            
             for (int i = 0; i < _graphsInList.Count; i++)
             {
+                var timer = new Stopwatch();
                 timer.Start();
                 int flow = FordFulkerson.FordFulkersonAlgorithm(_graphsInList[i], 0, 5);
                 timer.Stop();
