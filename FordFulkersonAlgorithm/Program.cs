@@ -21,6 +21,9 @@ public class Program
         bool isMatrix = true;
         bool isList = false;
 
+        
+
+
         // The GraphAnaliser class is responsible for generating graphs and analysing them
         var analiser = new GraphAnaliser(50, 0.8, 20, isList, fullPath);
 
