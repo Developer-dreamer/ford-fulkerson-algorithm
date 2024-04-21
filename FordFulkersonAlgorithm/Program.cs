@@ -13,7 +13,6 @@ public class Program
         bool resetCurrentStatistics = true;
         if (resetCurrentStatistics)
         {
-            File.WriteAllText(fullPath, string.Empty);
             string[] values = { "Vertices", "Density", "Type", "Flow", "Time" };
             Statistics.GetStatistics(values, fullPath);
         }
