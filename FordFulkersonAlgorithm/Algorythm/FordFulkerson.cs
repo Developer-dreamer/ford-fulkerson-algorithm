@@ -95,17 +95,15 @@ public class FordFulkerson
     // Ford-Fulkerson algorithm for finding the maximum flow in a graph generated as a list
     public static int FordFulkersonAlgorithm(List<List<(int, int)>> adjacencyList, int source, int target)
     {
-        var adjacencyListCopy = adjacencyList;
-
         Dictionary<int, int> origins = new Dictionary<int, int>();
         var maxFlow = 0;
-        while (BFS(adjacencyListCopy, source, target, origins))
+        while (BFS(adjacencyList, source, target, origins))
         {
             var pathFlow = int.MaxValue;
             for (int v = target; v != source; v = origins[v])
             {
                 int u = origins[v];
-                foreach (var (vertex, weight) in adjacencyListCopy[u])
+                foreach ((int vertex, int weight) in adjacencyList[u])
                 {
                     if (vertex == v)
                     {
@@ -118,23 +116,23 @@ public class FordFulkerson
             for (int v = target; v != source; v = origins[v])
             {
                 int u = origins[v];
-                for (int i = 0; i < adjacencyListCopy[u].Count; i++)
+                for (int i = 0; i < adjacencyList[u].Count; i++)
                 {
-                    var (vertex, weight) = adjacencyListCopy[u][i];
+                    (int vertex, int weight)  = adjacencyList[u][i];
                     if (vertex == v)
                     {
-                        adjacencyListCopy[u][i] = (vertex, weight - pathFlow);
+                        adjacencyList[u][i] = (vertex, weight - pathFlow);
                         break;
                     }
                 }
 
-                for (int i = 0; i < adjacencyListCopy[v].Count; i++)
+                for (int i = 0; i < adjacencyList[v].Count; i++)
                 {
-                    var (vertex, weight) = adjacencyListCopy[v][i];
+                     (int vertex, int weight) = adjacencyList[v][i];
 
                     if (vertex == u)
                     {
-                        adjacencyListCopy[v][i] = (vertex, weight + pathFlow);
+                        adjacencyList[v][i] = (vertex, weight + pathFlow);
                         break;
                     }
                 }

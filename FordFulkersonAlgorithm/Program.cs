@@ -7,7 +7,7 @@ public class Program
     {
 
         // Path to the file where the statistics will be saved
-        string fullPath = Path.Combine("..", "..", "..", "GraphGenerator", "statistics.csv");
+        string fullPath = Path.Combine("..", "..", "..", "Statistics", "statistics.csv");
 
         // If resetCurrentStatistics is set to true, the file will be cleared and the new statistics will be saved
         bool resetCurrentStatistics = true;
@@ -30,6 +30,6 @@ public class Program
         // The Analyse method generates graphs and analyses them
         analiser.Analyse();
 
-        Console.WriteLine("Done");
+        Console.WriteLine("Сompleted successfully");
     }
 }

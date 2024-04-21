@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace FordFulkersonAlgorithm.GraphGenerator;
+namespace FordFulkersonAlgorithm;
 public class Statistics
 {
     // Method for saving statistics to a file
@@ -34,7 +34,7 @@ public class Statistics
             string result = string.Join(", ", values);
             writer.WriteLine(result);
         }
-        
+
     }
 }
 
